@@ -16,8 +16,6 @@ defmodule BananaBankWeb.FallbackController do
   end
 
   def call(conn, {:error, changeset}) do
-    IO.inspect(changeset)
-
     conn
     |> put_status(:bad_request)
     |> put_view(json: BananaBankWeb.ErrorJSON)
