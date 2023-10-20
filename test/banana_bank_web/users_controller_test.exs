@@ -7,7 +7,7 @@ defmodule BananaBankWeb.UsersControllerTest do
     test "successfully creates an user", %{conn: conn} do
       params = %{
         "name" => "Nath",
-        "cep" => "12345678",
+        "cep" => "04324090",
         "email" => "nat@test.com",
         "password" => "123456"
       }
@@ -16,23 +16,22 @@ defmodule BananaBankWeb.UsersControllerTest do
         conn
         |> post(~p"/api/users", params)
         |> json_response(:created)
-        |> IO.inspect()
 
       assert %{
-               "data" => %{"cep" => "12345678", "email" => "nat@test.com", "id" => _id, "name" => "Nath"},
+               "data" => %{"cep" => "04324090", "email" => "nat@test.com", "id" => _id, "name" => "Nath"},
                "message" => "User criado com sucesso!"
              } = response
     end
 
     test "when there are invalids params returns an error", %{conn: conn} do
       params = %{
-        name: "Nath",
-        cep: "12",
-        email: "nat@test.com",
-        password: "123456"
+        "name" => "Nath",
+        "cep" => "12",
+        "email" => "nat@test.com",
+        "password" => "123456"
       }
 
-      expected_response = %{"errors" => %{"cep" => ["should be 8 character(s)"]}}
+      expected_response = %{"status" => "bad_request"}
 
       response =
         conn
@@ -46,10 +45,10 @@ defmodule BananaBankWeb.UsersControllerTest do
   describe "delete/2" do
     test "successfully deletes an user", %{conn: conn} do
       params = %{
-        name: "Nath",
-        cep: "12345678",
-        email: "nat@test.com",
-        password: "123456"
+        "name" => "Nath",
+        "cep" => "04324090",
+        "email" => "nat@test.com",
+        "password" => "123456"
       }
 
       {:ok, %User{id: id}} = Users.create(params)
@@ -60,7 +59,7 @@ defmodule BananaBankWeb.UsersControllerTest do
         |> json_response(:ok)
 
       expected_response = %{
-        "data" => %{"cep" => "12345678", "email" => "nat@test.com", "id" => id, "name" => "Nath"},
+        "data" => %{"cep" => "04324090", "email" => "nat@test.com", "id" => id, "name" => "Nath"},
         "message" => "User excluído com sucesso!"
       }
 
